@@ -1,8 +1,8 @@
-from pydantic import BaseModel, Field, validator
-from uuid import uuid4
 import datetime as dt
+from uuid import uuid4
 
 from dateutil.relativedelta import relativedelta
+from pydantic import BaseModel, Field, validator
 
 
 class UserModel(BaseModel):
