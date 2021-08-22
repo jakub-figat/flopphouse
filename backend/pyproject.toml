@@ -6,6 +6,8 @@ authors = ["jakub-figat <jakub.figat@skygate.io>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
+fastapi = "^0.68.0"
+uvicorn = "^0.15.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
