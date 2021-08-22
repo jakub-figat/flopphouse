@@ -9,6 +9,7 @@ services:
         ports:
             - 27017:27017
         env_file: ./config/.env
+        container_name: flopphouse_mongo
 
     backend:
         build:
