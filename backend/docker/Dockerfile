@@ -11,6 +11,7 @@ POETRY_VERSION=1.1.7 \
 POETRY_VIRTUALENVS_CREATE=false \
 POETRY_CACHE_DIR='/var/cache/pypoetry'
 
+RUN apt-get update -q && apt-get install -yq netcat
 
 WORKDIR /backend
 
@@ -21,4 +22,6 @@ RUN poetry install --no-ansi --no-interaction
 
 COPY . .
 
-EXPOSE 8000
+
+ENTRYPOINT ["sh", "./scripts/start.sh"]
+

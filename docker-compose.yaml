@@ -14,8 +14,7 @@ services:
     backend:
         build:
             context: ./backend
-            dockerfile: docker/fastapi/Dockerfile
-        command: python main.py
+            dockerfile: docker/Dockerfile
         env_file: ./config/.env
         container_name: flopphouse_backend
         ports:
