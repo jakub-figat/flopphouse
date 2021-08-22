@@ -8,14 +8,14 @@ services:
             - flopphouse_mongodata: /data/db
         ports:
             - 27017:27017
-        env_file: ./config/.env
+        env_file: ./settings/.env
         container_name: flopphouse_mongo
 
     backend:
         build:
             context: ./backend
             dockerfile: docker/fastapi/Dockerfile
-        env_file: ./config/.env
+        env_file: ./settings/.env
         container_name: flopphouse_backend
         ports:
             - 8000:8000
