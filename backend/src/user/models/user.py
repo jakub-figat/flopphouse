@@ -2,7 +2,7 @@ import datetime as dt
 from uuid import uuid4
 
 from dateutil.relativedelta import relativedelta
-from pydantic import BaseModel, Field, validator, validate_email
+from pydantic import BaseModel, Field, validate_email, validator
 
 
 class UserModel(BaseModel):
