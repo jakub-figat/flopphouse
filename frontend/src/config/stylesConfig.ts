@@ -16,3 +16,10 @@ export const fontSize = {
   large: '1.5rem',
   extraLarge: '2rem',
 };
+
+export const colors = {
+  darkBackground: '#342C3C',
+  buttonColor: '#9089F0',
+  darkInput: '#908F91',
+  darkForm: '#616659',
+};
