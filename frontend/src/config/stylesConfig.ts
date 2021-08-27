@@ -23,3 +23,10 @@ export const colors = {
   darkInput: '#908F91',
   darkForm: '#616659',
 };
+
+export const breakpoints = {
+  small: 576,
+  medium: 768,
+  large: 992,
+  extraLarge: 1200,
+};
