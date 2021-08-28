@@ -18,6 +18,7 @@ export const fontSize = {
 };
 
 export const colors = {
+  whiteText: '#FCFCFC',
   darkBackground: '#342C3C',
   buttonColor: '#9089F0',
   darkInput: '#908F91',
