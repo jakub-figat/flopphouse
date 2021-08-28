@@ -1,7 +1,9 @@
-import './App.css';
+import { GlobalStyles } from './core/GlobalStyles';
 
-function App() {
-  return <></>;
-}
+const App = () => (
+  <>
+    <GlobalStyles />
+  </>
+);
 
 export default App;
