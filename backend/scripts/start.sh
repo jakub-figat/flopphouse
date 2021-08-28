@@ -1,7 +1,7 @@
 #!/usr/bin/sh
 
 mongo_ready () {
-  nc -zv -i 2 mongo 27017
+  nc -z -i 2 mongo 27017
 }
 
 until mongo_ready; do

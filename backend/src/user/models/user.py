@@ -1,4 +1,5 @@
 import datetime as dt
+from typing import Any
 from uuid import UUID
 
 from dateutil.relativedelta import relativedelta
@@ -37,14 +38,24 @@ class UserModel(UserBaseModel):
 
 
 class UserRegisterModel(UserBaseModel):
+    password: str
+    password_2: str
+
+    @validator("password_2")
+    def validate_passwords(cls, password_2: str, values: dict[str, Any]) -> None:
+        if password_2 != values["password"]:
+            raise ValueError("Second password differs from first one.")
+
+        return password_2
+
     @validator("date_of_birth")
-    def validate_date_of_birth(cls, date_of_birth: dt.date) -> None:
+    def validate_date_of_birth(cls, date_of_birth: dt.date) -> dt.date:
         if date_of_birth >= dt.date.today():
-            raise ValueError("Date of birth must be in the past")
+            raise ValueError("Date of birth must be in the past.")
 
         return date_of_birth
 
     @validator("email")
-    def validate_email(cls, email: str) -> None:
+    def validate_email(cls, email: str) -> str:
         validate_email(email)
         return email
