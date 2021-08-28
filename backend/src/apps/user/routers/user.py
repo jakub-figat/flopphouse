@@ -2,8 +2,8 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.requests import Request
 from fastapi.routing import APIRouter
 
-from src.user import actions
-from src.user.models import UserModel, UserRegisterModel
+from src.apps.user import actions
+from src.apps.user.models import UserModel, UserRegisterModel
 
 router = APIRouter()
 

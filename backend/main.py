@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
+from src.apps.user.routers import router as user_router
 from src.database import close_mongo_connection, start_mongo_connection
-from src.user.routers import router as user_router
 
 app = FastAPI(
     title="FloppHouse - Social app",
