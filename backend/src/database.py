@@ -1,6 +1,15 @@
-from motor.motor_asyncio import AsyncIOMotorClient
+from contextlib import asynccontextmanager
+from typing import AsyncGenerator
+
+from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 
 from src.settings.config import MONGO_DATABASE, MONGO_URL
 
-mongo_client = AsyncIOMotorClient(MONGO_URL)
-db = mongo_client[MONGO_DATABASE]
+
+@asynccontextmanager
+async def mongo_db() -> AsyncGenerator[AsyncIOMotorDatabase, None]:
+    mongo_client = AsyncIOMotorClient(MONGO_URL)
+    try:
+        yield mongo_client[MONGO_DATABASE]
+    finally:
+        mongo_client.close()
