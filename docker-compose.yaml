@@ -1,29 +1,41 @@
 version: "3.8"
 
 services:
-    mongo:
-        image: mongo:5.0.2-nanoserver
-        restart: always
-        volumes:
-            - flopphouse_mongodata: /data/db
-        ports:
-            - 27017:27017
-        env_file: ./config/.env
-        container_name: flopphouse_mongo
+  mongo:
+    image: mongo:5.0.2-nanoserver
+    restart: always
+    volumes:
+      - flopphouse_mongodata: /data/db
+    ports:
+      - 27017:27017
+    env_file: ./config/.env
+    container_name: flopphouse_mongo
 
-    backend:
-        build:
-            context: ./backend
-            dockerfile: docker/fastapi/Dockerfile
-        env_file: ./config/.env
-        container_name: flopphouse_backend
-        ports:
-            - 8000:8000
-        restart: always
-        depends_on:
-            - mongo
-        volumes:
-            - ./backend:/backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: docker/fastapi/Dockerfile
+    env_file: ./config/.env
+    container_name: flopphouse_backend
+    ports:
+      - 8000:8000
+    restart: always
+    depends_on:
+      - mongo
+    volumes:
+      - ./backend:/backend
+
+  frontend:
+    container_name: flopphouse_frontend
+    volumes:
+      - ./frontend:/frontend
+      - /frontend/node_modules
+    build:
+      context: ./frontend
+      dockerfile: ./Dockerfile
+    restart: unless-stopped
+    ports:
+      - 3000:3000
 
 volumes:
-    - flopphouse_mongodata
+  - flopphouse_mongodata
