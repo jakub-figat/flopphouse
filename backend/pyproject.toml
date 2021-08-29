@@ -18,6 +18,7 @@ pydantic = {extras = ["email"], version = "^1.8.2"}
 pytz = "^2021.1"
 cryptography = "^3.4.8"
 passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+fastapi-mail = "^0.4.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
