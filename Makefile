@@ -1,4 +1,5 @@
 postgres-user = postgres
+revision = head
 
 format:
 	docker-compose exec backend bash -c "isort . && black ."
@@ -24,3 +25,6 @@ db-shell:
 
 alembic-revision:
 	docker-compose exec backend bash -c "alembic revision -m '$(message)'"
+
+migrate:
+	docker-compose exec backend bash -c "alembic upgrade $(revision)"
