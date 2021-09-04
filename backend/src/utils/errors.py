@@ -1,11 +1,10 @@
 from typing import Sequence
 
 from fastapi import HTTPException, status
-from pymongo.errors import DuplicateKeyError
 
 
 class UniqueConstraintException(HTTPException):
-    def __init__(self, *, error: DuplicateKeyError) -> None:
+    def __init__(self, *, error) -> None:
         self._error = error
 
         detail = {

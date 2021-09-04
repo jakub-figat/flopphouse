@@ -1,16 +1,15 @@
-from fastapi.encoders import jsonable_encoder
-from fastapi.requests import Request
+from fastapi import Depends
 from fastapi.routing import APIRouter
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.apps.user import actions
-from src.apps.user.models import UserModel, UserRegisterModel
+from src.deps.database import get_async_session
 
 router = APIRouter()
 
 
-@router.post("/register", tags=["users"], response_model=UserModel)
-async def register_user(request: Request, user: UserRegisterModel):
-    user_data = jsonable_encoder(user)
-    user = await actions.register_user(user_data=user_data, mongo_db=request.app.mongo_db)
+@router.post("/register", tags=["users"])
+async def register_user(async_session: AsyncSession = Depends(get_async_session)):
+    user = await actions.register_user(async_session=async_session)
 
-    return user
+    return {"user_uuid": user.id}

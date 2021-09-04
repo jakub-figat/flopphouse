@@ -1,5 +1,4 @@
-mongo-username = 'SATURAS'
-mongo-password = 'TETRIANDOCH'
+postgres-user = postgres
 
 format:
 	docker-compose exec backend bash -c "isort . && black ."
@@ -17,5 +16,8 @@ backend-bash:
 frontend-bash:
 	docker-compose exec frontend bash
 
-mongo-shell:
-	docker-compose exec mongo bash -c "mongosh --username $(mongo-username) --password $(mongo-password)"
+db-bash:
+	docker-compose exec db bash
+
+db-shell:
+	docker-compose exec db psql -U $(postgres-user)
