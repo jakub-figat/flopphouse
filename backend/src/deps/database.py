@@ -1,5 +1,3 @@
-from contextlib import asynccontextmanager
-
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.settings.database import AsyncSessionLocal

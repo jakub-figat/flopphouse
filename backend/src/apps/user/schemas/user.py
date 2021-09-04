@@ -15,11 +15,11 @@ class UserBaseSchema(BaseModel):
 
 
 class UserSchema(UserBaseSchema):
-    id: UUID = Field(alias="_id")
+    id: UUID
     is_active: bool = False
 
     class Config:
-        allow_population_by_field_name = True
+        orm_mode = True
         schema_extra = {
             "example": {
                 "_id": "e2ceeb4b-b602-48f3-aa61-d763237075a2",
@@ -40,6 +40,9 @@ class UserSchema(UserBaseSchema):
 class UserRegisterSchema(UserBaseSchema):
     password: str
     password_2: str
+
+    class Config:
+        orm_mode = True
 
     @validator("password_2")
     def validate_passwords(cls, password_2: str, values: dict[str, Any]) -> None:

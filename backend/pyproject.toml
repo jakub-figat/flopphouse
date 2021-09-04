@@ -19,6 +19,7 @@ cryptography = "^3.4.8"
 passlib = {extras = ["bcrypt"], version = "^1.7.4"}
 SQLAlchemy = {extras = ["asyncio"], version = "^1.4.23"}
 asyncpg = "^0.24.0"
+alembic = "^1.7.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
