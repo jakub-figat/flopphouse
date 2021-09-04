@@ -21,3 +21,6 @@ db-bash:
 
 db-shell:
 	docker-compose exec db psql -U $(postgres-user)
+
+alembic-revision:
+	docker-compose exec backend bash -c "alembic revision -m '$(message)'"
