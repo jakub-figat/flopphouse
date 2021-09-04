@@ -9,7 +9,7 @@ router = APIRouter()
 
 
 @router.post("/register", tags=["users"])
-async def register_user():
-    user = await actions.register_user()
+async def register_user(async_session: AsyncSession = Depends(get_async_session)):
+    user = await actions.register_user(async_session=async_session)
 
     return {"user_uuid": user.id}
