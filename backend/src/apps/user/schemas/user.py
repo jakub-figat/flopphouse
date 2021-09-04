@@ -1,6 +1,6 @@
 import datetime as dt
 from typing import Any
-from uuid import UUID
+from uuid import UUID, uuid4
 
 from dateutil.relativedelta import relativedelta
 from pydantic import BaseModel, Field, validate_email, validator
@@ -16,7 +16,7 @@ class UserBaseSchema(BaseModel):
 
 class UserSchema(UserBaseSchema):
     id: UUID
-    is_active: bool = False
+    is_active: bool
 
     class Config:
         orm_mode = True
@@ -38,8 +38,10 @@ class UserSchema(UserBaseSchema):
 
 
 class UserRegisterSchema(UserBaseSchema):
+    id: UUID = Field(default_factory=uuid4, const=True)
     password: str
     password_2: str
+    is_active: bool = Field(False, const=True)
 
     class Config:
         orm_mode = True

@@ -22,11 +22,12 @@ depends_on = None
 def upgrade():
     op.create_table(
         "users",
-        sa.Column("id", UUID(as_uuid=True), primary_key=True, default=uuid4),
+        sa.Column("id", UUID(as_uuid=True), primary_key=True, server_default=sa.text("uuid_generate_v4()")),
+        sa.Column("password", sa.String, nullable=False),
         sa.Column("first_name", sa.String(length=30), nullable=False),
         sa.Column("last_name", sa.String(length=30), nullable=False),
         sa.Column("username", sa.String(length=30), unique=True, nullable=False),
-        sa.Column("is_active", sa.Boolean, default=False, nullable=False),
+        sa.Column("is_active", sa.Boolean, server_default="false", nullable=False),
         sa.Column("email", sa.String, unique=True, nullable=False),
         sa.Column("date_of_birth", sa.Date, nullable=False),
     )
