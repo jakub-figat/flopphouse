@@ -1,14 +1,14 @@
 #!/usr/bin/sh
 
-mongo_ready () {
-  nc -z -i 2 mongo 27017
+postgres_ready () {
+  nc -z -i 2 db 5432
 }
 
-until mongo_ready; do
-  echo 'MongoDB is unavailable, waiting...'
+until postgres_ready; do
+  echo 'PostgreSQL is unavailable, waiting...'
 done
 
-echo 'MongoDB connection established, continuing...'
+echo 'PostgreSQL connection established, continuing...'
 
 
 uvicorn main:app --host 0.0.0.0 --port 8000 --reload --workers 4

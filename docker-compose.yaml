@@ -1,16 +1,11 @@
 version: "3.8"
 
 services:
-    mongo:
-        image: mongo:5.0.2
-        restart: always
-        volumes:
-            - mongodata:/data/db
-            - ./backend/docker/mongo:/docker-entrypoint-initdb.d
-        ports:
-            - 27017:27017
+    db:
+        image: postgres:13.4
         env_file: ./config/.env
-        container_name: flopphouse_mongo
+        volumes:
+            - pgdata:/var/lib/postgresql/data
 
     backend:
         build:
@@ -22,9 +17,9 @@ services:
             - 8000:8000
         restart: always
         depends_on:
-            - mongo
+            - db
         volumes:
             - ./backend:/backend
 
 volumes:
-    mongodata:
+    pgdata:
