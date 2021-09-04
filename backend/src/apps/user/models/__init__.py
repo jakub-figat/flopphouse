@@ -1,1 +1,1 @@
-from src.apps.user.models.user import UserModel, UserRegisterModel
+from src.apps.user.models.user import User
