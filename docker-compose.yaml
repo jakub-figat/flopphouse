@@ -1,15 +1,17 @@
 version: "3.8"
 
 services:
-  mongo:
-    image: mongo:5.0.2-nanoserver
-    restart: always
+  frontend:
+    container_name: flopphouse_frontend
     volumes:
-      - flopphouse_mongodata: /data/db
+      - ./frontend:/frontend
+      - /frontend/node_modules
+    build:
+      context: ./frontend
+      dockerfile: ./Dockerfile
+    restart: unless-stopped
     ports:
-      - 27017:27017
-    env_file: ./config/.env
-    container_name: flopphouse_mongo
+      - 3000:3000
 
   backend:
     build:
@@ -25,17 +27,12 @@ services:
     volumes:
       - ./backend:/backend
 
-  frontend:
-    container_name: flopphouse_frontend
+  db:
+    image: postgres:13.4
+    env_file: ./config/.env
     volumes:
-      - ./frontend:/frontend
-      - /frontend/node_modules
-    build:
-      context: ./frontend
-      dockerfile: ./Dockerfile
-    restart: unless-stopped
-    ports:
-      - 3000:3000
+      - pgdata:/var/lib/postgresql/data
+      - ./backend/docker/postgres:/docker-entrypoint-initdb.d
 
 volumes:
-  - flopphouse_mongodata
+  pgdata:

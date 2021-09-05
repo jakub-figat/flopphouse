@@ -1,20 +1,13 @@
-import uvicorn
 from fastapi import FastAPI
 
-app = FastAPI()
+from src.apps.user.routers import router as user_router
+from src.settings.database import Base, async_engine
 
+app = FastAPI(
+    title="FloppHouse - Social app",
+    description="An application that makes communicating easier",
+    version="0.1.0",
+    docs_url="/api/v1/swagger",
+)
 
-@app.get("/hello")
-async def hello():
-    return {"hello": "hello"}
-
-
-if __name__ == "__main__":
-    uvicorn.run(
-        "main:app",
-        host="0.0.0.0",
-        port=8000,
-        reload=True,
-        debug=True,
-        workers=4,
-    )
+app.include_router(user_router, prefix="/api/v1/users")
