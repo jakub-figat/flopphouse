@@ -1,26 +1,38 @@
 version: "3.8"
 
 services:
-    db:
-        image: postgres:13.4
-        env_file: ./config/.env
-        volumes:
-            - pgdata:/var/lib/postgresql/data
-            - ./backend/docker/postgres:/docker-entrypoint-initdb.d
+  frontend:
+    container_name: flopphouse_frontend
+    volumes:
+      - ./frontend:/frontend
+      - /frontend/node_modules
+    build:
+      context: ./frontend
+      dockerfile: ./Dockerfile
+    restart: unless-stopped
+    ports:
+      - 3000:3000
 
-    backend:
-        build:
-            context: ./backend
-            dockerfile: docker/python/Dockerfile
-        env_file: ./config/.env
-        container_name: flopphouse_backend
-        ports:
-            - 8000:8000
-        restart: always
-        depends_on:
-            - db
-        volumes:
-            - ./backend:/backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: docker/fastapi/Dockerfile
+    env_file: ./config/.env
+    container_name: flopphouse_backend
+    ports:
+      - 8000:8000
+    restart: always
+    depends_on:
+      - mongo
+    volumes:
+      - ./backend:/backend
+
+  db:
+    image: postgres:13.4
+    env_file: ./config/.env
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./backend/docker/postgres:/docker-entrypoint-initdb.d
 
 volumes:
-    pgdata:
+  pgdata:
