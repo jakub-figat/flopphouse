@@ -3,12 +3,16 @@ import styled from 'styled-components';
 import { fontSize, colors, fontWeight } from '../../../config/stylesConfig';
 
 export const RegisterFormWrapper = styled.div`
-  padding: 2rem;
+  height: 550px;
+
+  width: 300px;
 `;
 
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
+  height: 100%;
+  justify-content: space-evenly;
 `;
 
 export const RegisterHeader = styled.h3`
@@ -17,11 +21,16 @@ export const RegisterHeader = styled.h3`
   font-weight: ${fontWeight.heavy};
 `;
 
+export const RegisterHeaderWrapper = styled.span`
+  color: ${colors.yellowTheme};
+`;
+
 export const ErrorMessage = styled.div`
-  color: red;
+  color: ${colors.errorMessage};
 `;
 
 export const SubmitButton = styled.button`
+  margin-top: 20px;
   display: inline-block;
   outline: none;
   color: ${colors.whiteText};

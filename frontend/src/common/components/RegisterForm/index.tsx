@@ -1,13 +1,20 @@
-import { RegisterFormWrapper, Form, RegisterHeader, SubmitButton } from './styles';
+import {
+  RegisterFormWrapper,
+  Form,
+  RegisterHeader,
+  RegisterHeaderWrapper,
+  SubmitButton,
+} from './styles';
 import { Formik } from 'formik';
 import { registerSchema } from '../../../config/validationSchema';
-import { RegisterValidation } from '../../models/index';
 import TextInput from './TextInput';
 
 const RegisterForm = () => {
   return (
     <RegisterFormWrapper>
-      <RegisterHeader>Sign in to flopphouse</RegisterHeader>
+      <RegisterHeader>
+        Sign in to <RegisterHeaderWrapper>flopp</RegisterHeaderWrapper>house
+      </RegisterHeader>
       <Formik
         initialValues={{
           firstName: '',
