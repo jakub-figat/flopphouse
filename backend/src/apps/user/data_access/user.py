@@ -1,5 +1,4 @@
 from typing import Any
-from uuid import uuid4
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
