@@ -12,8 +12,3 @@ AsyncSessionLocal = sessionmaker(
 )
 
 Base = declarative_base()
-
-
-async def create_tables() -> None:
-    async with async_engine.begin() as connection:
-        await connection.run_sync(Base.metadata.create_all)

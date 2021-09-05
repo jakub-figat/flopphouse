@@ -6,6 +6,7 @@ services:
         env_file: ./config/.env
         volumes:
             - pgdata:/var/lib/postgresql/data
+            - ./backend/docker/postgres:/docker-entrypoint-initdb.d
 
     backend:
         build:
