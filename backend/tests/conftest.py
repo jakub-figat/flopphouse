@@ -8,6 +8,13 @@ from src.settings import config
 from src.settings.database import Base
 
 
+@pytest.fixture(scope="session")
+def event_loop():
+    loop = asyncio.get_event_loop()
+    yield loop
+    loop.close()
+
+
 @pytest.fixture(scope="session", autouse=True)
 def meta_migrations():
     postgres_url = (

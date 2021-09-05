@@ -1,4 +1,7 @@
 CREATE EXTENSION "uuid-ossp";
 
 DROP DATABASE IF EXISTS test;
-CREATE DATABASE test;
+CREATE DATABASE test;clear
+
+\c test
+CREATE EXTENSION "uuid-ossp";

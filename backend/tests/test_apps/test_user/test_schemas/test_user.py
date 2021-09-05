@@ -3,7 +3,10 @@ from uuid import uuid4
 
 import pytest
 from freezegun import freeze_time
+from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 
+from src.apps.user.models import User
 from src.apps.user.schemas import UserSchema
 
 
