@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 
 from src.apps.user.routers import router as user_router
-from src.settings.database import Base, async_engine
 
 app = FastAPI(
     title="FloppHouse - Social app",
