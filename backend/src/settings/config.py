@@ -4,6 +4,8 @@ from decouple import config
 
 BASE_DIR = Path(__file__).parents[2]
 
+DOMAIN = config("DOMAIN")
+
 
 # database
 POSTGRES_HOST = config("POSTGRES_HOST")
