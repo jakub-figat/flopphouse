@@ -21,7 +21,7 @@ def upgrade():
     op.create_table(
         "email_confirmations",
         sa.Column("id", UUID(as_uuid=True), server_default=sa.text("uuid_generate_v4()"), primary_key=True),
-        sa.Column("user_id", UUID(as_uuid=True), sa.ForeignKey("user.id"), nullable=False),
+        sa.Column("user_id", UUID(as_uuid=True), sa.ForeignKey("users.id"), nullable=False),
         sa.Column("token", UUID(as_uuid=True), server_default=sa.text("uuid_generate_v4()"), nullable=False),
         sa.Column("created_at", sa.DateTime, server_default=sa.func.now(), nullable=False),
     )

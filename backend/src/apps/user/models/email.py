@@ -10,7 +10,7 @@ class EmailConfirmation(Base):
     __mapper_args__ = {"eager_defaults": True}
 
     id = Column(UUID(as_uuid=True), server_default=text("uuid_generate_v4()"), primary_key=True)
-    user_id = Column(UUID(as_uuid=True), ForeignKey("user.id"), nullable=False)
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
     user = relationship("User", backref=backref("email_confirmation", uselist=False))
 
     token = Column(UUID(as_uuid=True), server_default=text("uuid_generate_v4()"), nullable=False)

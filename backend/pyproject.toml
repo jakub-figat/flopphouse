@@ -20,6 +20,9 @@ passlib = {extras = ["bcrypt"], version = "^1.7.4"}
 SQLAlchemy = {extras = ["asyncio"], version = "^1.4.23"}
 asyncpg = "^0.24.0"
 alembic = "^1.7.1"
+fastapi-mail = "^0.4.1"
+mypy = "^0.910"
+coverage = "^5.5"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

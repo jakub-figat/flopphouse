@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 postgres_ready () {
   nc -z -i 2 db 5432

@@ -34,3 +34,10 @@ recreate-db:
 	docker-compose exec db bash -c "runuser postgres -c 'dropdb $(postgres-database); createdb $(postgres-database)'"
 	docker-compose exec db psql -U postgres -a -f /docker-entrypoint-initdb.d/init-postgres.sql
 	make migrate
+
+test:
+	docker-compose exec backend bash ./scripts/test.sh $(module)
+
+coverage-html:
+	docker-compose exec backend bash -c "coverage html"
+
