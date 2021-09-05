@@ -30,6 +30,7 @@ def user_schema(request):
     ],
     indirect=["user_schema"],
 )
+@pytest.mark.asyncio
 @freeze_time("2022-01-01")
-def test_user_schema_returns_correct_age(user_schema: UserSchema, expected_age: int):
+async def test_user_schema_returns_correct_age(user_schema: UserSchema, expected_age: int):
     assert user_schema.age == expected_age
