@@ -1,12 +1,10 @@
 from typing import Any
 from uuid import uuid4
 
-from fastapi.encoders import jsonable_encoder
-from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.apps.user.models import User
-from src.apps.user.schemas import UserRegisterSchema, UserSchema
+from src.apps.user.schemas import UserPasswordSchema, UserRegisterSchema, UserSchema
 from src.apps.user.utils import password_context
 
 
@@ -21,7 +19,9 @@ class UserDataAccess:
     async def create_user(self, *, user_register_schema: UserRegisterSchema) -> UserSchema:
         user_data = user_register_schema.dict()
         await self._hash_password(user_data=user_data)
-        user = User(**user_data)
+
+        user_password_schema = UserPasswordSchema(**user_data)
+        user = User(**user_password_schema.dict())
 
         self._async_session.add(user)
         await self._async_session.flush()

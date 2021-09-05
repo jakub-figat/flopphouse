@@ -1,1 +1,1 @@
-from src.apps.user.schemas.user import UserRegisterSchema, UserSchema
+from src.apps.user.schemas.user import UserPasswordSchema, UserRegisterSchema, UserSchema

@@ -38,10 +38,8 @@ class UserSchema(UserBaseSchema):
 
 
 class UserRegisterSchema(UserBaseSchema):
-    id: UUID = Field(default_factory=uuid4, const=True)
-    password: str
-    password_2: str
-    is_active: bool = Field(False, const=True)
+    password: str = Field(..., max_length=32)
+    password_2: str = Field(..., max_length=32)
 
     class Config:
         orm_mode = True
@@ -64,3 +62,9 @@ class UserRegisterSchema(UserBaseSchema):
     def validate_email(cls, email: str) -> str:
         validate_email(email)
         return email
+
+
+class UserPasswordSchema(UserSchema):
+    id: UUID = Field(default_factory=uuid4, const=True)
+    password: str
+    is_active: bool = Field(default=False, const=True)

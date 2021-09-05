@@ -1,5 +1,3 @@
-from uuid import uuid4
-
 from sqlalchemy import Boolean, Column, Date, String, text
 from sqlalchemy.dialects.postgresql import UUID
 
