@@ -329,6 +329,17 @@ extra = ["blinker (>=1.4)"]
 testing = ["pytest", "pytest-asyncio", "pytest-mock", "pytest-cov"]
 
 [[package]]
+name = "freezegun"
+version = "1.1.0"
+description = "Let your Python tests travel through time"
+category = "main"
+optional = false
+python-versions = ">=3.5"
+
+[package.dependencies]
+python-dateutil = ">=2.7"
+
+[[package]]
 name = "greenlet"
 version = "1.1.1"
 description = "Lightweight in-process concurrent programming"
@@ -803,7 +814,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "bc55bce243f7db9165111625f5fa8ad9a33c118dcabbc726a2ae6a0b311119d7"
+content-hash = "08f1585664503f0c60a4100a438429ea1709cd6313e03ec1bfa21cee518c9052"
 
 [metadata.files]
 aioredis = [
@@ -1024,6 +1035,10 @@ fastapi = [
 fastapi-mail = [
     {file = "fastapi-mail-0.4.1.tar.gz", hash = "sha256:9b774b64672fb47a6ceb67e45db5bd031694f8b19d15db8597d1c390122e3031"},
     {file = "fastapi_mail-0.4.1-py3-none-any.whl", hash = "sha256:46ea8d622bf0a1fe7563249706f6600017a28a43a22809ba96e7129b1e0fc31d"},
+]
+freezegun = [
+    {file = "freezegun-1.1.0-py2.py3-none-any.whl", hash = "sha256:2ae695f7eb96c62529f03a038461afe3c692db3465e215355e1bb4b0ab408712"},
+    {file = "freezegun-1.1.0.tar.gz", hash = "sha256:177f9dd59861d871e27a484c3332f35a6e3f5d14626f2bf91be37891f18927f3"},
 ]
 greenlet = [
     {file = "greenlet-1.1.1-cp27-cp27m-macosx_10_14_x86_64.whl", hash = "sha256:476ba9435afaead4382fbab8f1882f75e3fb2285c35c9285abb3dd30237f9142"},
