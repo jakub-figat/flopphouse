@@ -12,7 +12,10 @@ from src.settings.database import Base
 def event_loop():
     loop = asyncio.get_event_loop()
     yield loop
-    loop.close()
+
+
+def pytest_sessionfinish():
+    asyncio.get_event_loop().close()
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -21,7 +24,7 @@ def meta_migrations():
         f"postgresql://{config.POSTGRES_USER}:{config.POSTGRES_PASSWORD}@"
         f"{config.POSTGRES_HOST}:{config.POSTGRES_PORT}/test"
     )
-    sync_engine = create_engine(postgres_url, echo=True)
+    sync_engine = create_engine(postgres_url, echo=False)
 
     Base.metadata.drop_all(bind=sync_engine)
     Base.metadata.create_all(bind=sync_engine)
@@ -36,7 +39,7 @@ async def async_engine() -> AsyncEngine:
         f"postgresql+asyncpg://{config.POSTGRES_USER}:{config.POSTGRES_PASSWORD}@"
         f"{config.POSTGRES_HOST}:{config.POSTGRES_PORT}/test"
     )
-    async_engine = create_async_engine(postgres_url, echo=True)
+    async_engine = create_async_engine(postgres_url, echo=False)
 
     yield async_engine
 

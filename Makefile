@@ -36,7 +36,7 @@ recreate-db:
 	make migrate
 
 test:
-	docker-compose exec backend bash  -c "coverage run --source=src -m pytest $(location)"
+	docker-compose exec backend bash  -c "coverage run --source=src -m pytest -s $(location)"
 
 coverage-html:
 	docker-compose exec backend bash -c "coverage html"
