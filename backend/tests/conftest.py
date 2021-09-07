@@ -1,9 +1,12 @@
 import asyncio
+from typing import AsyncIterator
 
 import pytest
+from httpx import AsyncClient
 from sqlalchemy import create_engine, event
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, create_async_engine
 
+from main import app
 from src.settings import config
 from src.settings.database import Base
 
@@ -29,12 +32,12 @@ def meta_migrations():
     Base.metadata.drop_all(bind=sync_engine)
     Base.metadata.create_all(bind=sync_engine)
 
-    yield sync_engine
+    yield
     Base.metadata.drop_all(bind=sync_engine)
 
 
 @pytest.fixture(scope="session")
-async def async_engine() -> AsyncEngine:
+async def async_engine() -> AsyncIterator[AsyncEngine]:
     postgres_url = (
         f"postgresql+asyncpg://{config.POSTGRES_USER}:{config.POSTGRES_PASSWORD}@"
         f"{config.POSTGRES_HOST}:{config.POSTGRES_PORT}/test"
@@ -45,7 +48,7 @@ async def async_engine() -> AsyncEngine:
 
 
 @pytest.fixture(scope="function")
-async def async_session(async_engine: AsyncEngine) -> AsyncSession:
+async def async_session(async_engine: AsyncEngine) -> AsyncIterator[AsyncSession]:
     connection = await async_engine.connect()
     transaction = await connection.begin()
     async_session = AsyncSession(bind=connection)
@@ -62,3 +65,9 @@ async def async_session(async_engine: AsyncEngine) -> AsyncSession:
     await async_session.close()
     await transaction.rollback()
     await connection.close()
+
+
+@pytest.fixture(scope="function")
+async def async_client() -> AsyncIterator[AsyncClient]:
+    async with AsyncClient(app=app, base_url="http://localhost:8000/api/v1/") as async_client:
+        yield async_client

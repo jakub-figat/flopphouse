@@ -1,5 +1,6 @@
 from fastapi import Depends
 from fastapi.routing import APIRouter
+from starlette import status
 
 from src.apps.user.data_access import UserDataAccess
 from src.apps.user.dependencies import get_user_data_access
@@ -10,7 +11,7 @@ from src.utils.email import EmailSender
 router = APIRouter()
 
 
-@router.post("/register", tags=["users"])
+@router.post("/register", tags=["users"], status_code=status.HTTP_201_CREATED)
 async def register_user(
     user_register_schema: UserRegisterSchema,
     user_data_access: UserDataAccess = Depends(get_user_data_access),
