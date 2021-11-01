@@ -1,32 +1,44 @@
 from pathlib import Path
 
-from decouple import config
-
-BASE_DIR = Path(__file__).parents[2]
-
-DOMAIN = config("DOMAIN")
+from pydantic import BaseSettings
 
 
-# database
-POSTGRES_HOST = config("POSTGRES_HOST")
-POSTGRES_DATABASE = config("POSTGRES_DATABASE")
-POSTGRES_USER = config("POSTGRES_USER")
-POSTGRES_PASSWORD = config("POSTGRES_PASSWORD")
-POSTGRES_PORT = config("POSTGRES_PORT", cast=int)
+class GeneralSettings(BaseSettings):
+    BASE_DIR: Path = Path(__file__).parents[2]
+    DOMAIN: str
+    TEMPLATE_FOLDER: Path = BASE_DIR / "templates"
 
-POSTGRES_URL = (
-    f"postgresql+asyncpg://{POSTGRES_USER}:{POSTGRES_PASSWORD}@" f"{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DATABASE}"
-)
 
-# email
-MAIL_USERNAME = config("MAIL_USERNAME")
-MAIL_PASSWORD = config("MAIL_PASSWORD")
-MAIL_FROM = config("MAIL_FROM")
-MAIL_PORT = config("MAIL_PORT", cast=int)
-MAIL_SERVER = config("MAIL_SERVER")
-MAIL_FROM_NAME = config("MAIL_FROM_NAME")
-MAIL_TLS = True
-MAIL_SSL = False
-USE_CREDENTIALS = True
-VALIDATE_CERTS = True
-TEMPLATE_FOLDER = BASE_DIR / "templates"
+class DatabaseSettings(BaseSettings):
+    POSTGRES_HOST: str
+    POSTGRES_DATABASE: str
+    POSTGRES_USER: str
+    POSTGRES_PASSWORD: str
+    POSTGRES_PORT: int
+
+    @property
+    def postgres_url(self) -> str:
+        return (
+            f"postgresql+asyncpg://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@"
+            f"{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DATABASE}"
+        )
+
+
+class EmailSettings(BaseSettings):
+    MAIL_USERNAME: str
+    MAIL_PASSWORD: str
+    MAIL_FROM: str
+    MAIL_PORT: int
+    MAIL_SERVER: str
+    MAIL_FROM_NAME: str
+    MAIL_TLS: bool = True
+    MAIL_SSL: bool = False
+    USE_CREDENTIALS: bool = True
+    VALIDATE_CERTS: bool = True
+
+
+class Settings(GeneralSettings, DatabaseSettings, EmailSettings):
+    pass
+
+
+settings = Settings()
