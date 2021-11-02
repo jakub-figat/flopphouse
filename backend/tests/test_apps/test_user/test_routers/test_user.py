@@ -1,5 +1,3 @@
-import datetime as dt
-
 import pytest
 from fastapi import status
 from httpx import AsyncClient
@@ -8,9 +6,8 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from main import app
-from src.apps.user.data_access import EmailDataAccess, UserDataAccess
-from src.apps.user.dependencies import get_email_data_access, get_user_data_access
 from src.apps.user.models import User
+from src.dependencies import get_async_session
 
 
 @pytest.fixture(scope="module")
@@ -27,14 +24,8 @@ def user_register_data() -> dict[str, str]:
 
 
 @pytest.fixture(autouse=True)
-async def override_get_user_data_access(async_session: AsyncSession):
-    app.dependency_overrides[get_user_data_access] = lambda: UserDataAccess(async_session=async_session)
-    yield
-
-
-@pytest.fixture(autouse=True)
-async def override_get_email_data_access(async_session: AsyncSession):
-    app.dependency_overrides[get_email_data_access] = lambda: EmailDataAccess(async_session=async_session)
+async def override_get_async_session(async_session: AsyncSession):
+    app.dependency_overrides[get_async_session] = lambda: async_session
     yield
 
 
