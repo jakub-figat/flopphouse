@@ -1,5 +1,5 @@
 from src.apps.user.schemas import EmailConfirmationBodySchema, UserSchema
-from src.settings import config
+from src.settings.config import settings
 from src.utils.email import EmailSender
 from src.utils.schemas import EmailSchema
 
@@ -12,7 +12,7 @@ async def send_confirmation_email(*, user_schema: UserSchema, email_sender: Emai
     )
 
     body_schema = EmailConfirmationBodySchema(
-        first_name=user_schema.first_name, domain=config.DOMAIN, confirmation_url="dupa"
+        first_name=user_schema.first_name, domain=settings.DOMAIN, confirmation_url="dupa"
     )
 
     await email_sender.send_email(email_schema=email_schema, body_schema=body_schema)

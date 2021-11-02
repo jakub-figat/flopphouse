@@ -7,7 +7,7 @@ from sqlalchemy import create_engine, event
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, create_async_engine
 
 from main import app
-from src.settings import config
+from src.settings.config import settings
 from src.settings.database import Base
 
 
@@ -24,8 +24,8 @@ def pytest_sessionfinish():
 @pytest.fixture(scope="session", autouse=True)
 def meta_migrations():
     postgres_url = (
-        f"postgresql://{config.POSTGRES_USER}:{config.POSTGRES_PASSWORD}@"
-        f"{config.POSTGRES_HOST}:{config.POSTGRES_PORT}/test"
+        f"postgresql://{settings.POSTGRES_USER}:{settings.POSTGRES_PASSWORD}@"
+        f"{settings.POSTGRES_HOST}:{settings.POSTGRES_PORT}/test"
     )
     sync_engine = create_engine(postgres_url, echo=False)
 
@@ -39,8 +39,8 @@ def meta_migrations():
 @pytest.fixture(scope="session")
 async def async_engine() -> AsyncIterator[AsyncEngine]:
     postgres_url = (
-        f"postgresql+asyncpg://{config.POSTGRES_USER}:{config.POSTGRES_PASSWORD}@"
-        f"{config.POSTGRES_HOST}:{config.POSTGRES_PORT}/test"
+        f"postgresql+asyncpg://{settings.POSTGRES_USER}:{settings.POSTGRES_PASSWORD}@"
+        f"{settings.POSTGRES_HOST}:{settings.POSTGRES_PORT}/test"
     )
     async_engine = create_async_engine(postgres_url, echo=False)
 
@@ -69,5 +69,5 @@ async def async_session(async_engine: AsyncEngine) -> AsyncIterator[AsyncSession
 
 @pytest.fixture(scope="function")
 async def async_client() -> AsyncIterator[AsyncClient]:
-    async with AsyncClient(app=app, base_url="http://localhost:8000/api/v1/") as async_client:
+    async with AsyncClient(app=app, base_url=f"{settings.DOMAIN}/api/v1/") as async_client:
         yield async_client

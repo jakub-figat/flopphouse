@@ -22,6 +22,5 @@ RUN poetry install --no-ansi --no-interaction
 
 COPY . .
 
-
 ENTRYPOINT ["sh", "./scripts/start.sh"]
 
