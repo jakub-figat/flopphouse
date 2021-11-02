@@ -41,17 +41,11 @@ async def test_user_data_access_can_register_user(
     user_register_schema: UserRegisterSchema,
     user_register_schema_2,
     async_session: AsyncSession,
-    mocker: MockerFixture,
 ):
     user_data_access = UserDataAccess(async_session=async_session)
-    send_confirmation_email = mocker.patch("src.apps.user.data_access.UserDataAccess.send_confirmation_email")
 
     user_schema = await user_data_access.create_user(user_register_schema=user_register_schema)
     user_from_db = await async_session.scalar(select(User).filter(User.username == user_schema.username))
     user_schema_from_db = UserSchema.from_orm(user_from_db)
 
     assert user_schema == user_schema_from_db
-    send_confirmation_email.assert_called_with(
-        user_schema=user_schema,
-        email_data_access_class=EmailDataAccess,
-    )

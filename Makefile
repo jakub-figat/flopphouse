@@ -10,6 +10,7 @@ build-dev:
 	docker-compose build
 
 up-dev:
+	make migrate
 	docker-compose up
 
 backend-bash:
@@ -25,10 +26,10 @@ db-shell:
 	docker-compose exec db psql -U $(postgres-user)
 
 alembic-revision:
-	docker-compose exec backend bash -c "alembic revision -m '$(message)'"
+	docker-compose run --rm backend bash -c "alembic revision -m '$(message)'"
 
 migrate:
-	docker-compose exec backend bash -c "alembic upgrade $(revision)"
+	docker-compose run --rm backend bash -c "alembic upgrade $(revision)"
 
 recreate-db:
 	docker-compose exec db bash -c "runuser postgres -c 'dropdb $(postgres-database); createdb $(postgres-database)'"

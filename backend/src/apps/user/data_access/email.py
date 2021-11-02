@@ -17,7 +17,6 @@ class EmailDataAccess:
             user_id=user_schema.id,
             token=uuid4(),
         )
-
         self._async_session.add(email_confirmation)
         await self._async_session.flush()
 

@@ -37,7 +37,7 @@ async def test_user_can_register(
     mocker: MockerFixture,
 ):
     user_register_url = "users/register"
-    mock_send_message = mocker.patch("fastapi_mail.FastMail.send_message")
+    mock_send_message = mocker.patch("src.utils.email.FastMail.send_message")
 
     response = await async_client.post(user_register_url, json=user_register_data)
     assert response.status_code == status.HTTP_201_CREATED
@@ -46,4 +46,4 @@ async def test_user_can_register(
 
     assert user.username == user_register_data["username"]
 
-    # TODO: fix mock called two times
+    mock_send_message.assert_called_once()

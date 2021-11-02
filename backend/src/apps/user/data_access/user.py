@@ -27,12 +27,5 @@ class UserDataAccess:
         await self._async_session.flush()
 
         user_schema = UserSchema.from_orm(user)
-        await self.send_confirmation_email(user_schema=user_schema, email_data_access_class=EmailDataAccess)
 
         return user_schema
-
-    async def send_confirmation_email(
-        self, *, user_schema: UserSchema, email_data_access_class: Type[EmailDataAccess]
-    ) -> None:
-        email_data_access = email_data_access_class(async_session=self._async_session)
-        await email_data_access.create_confirmation_email(user_schema=user_schema)
