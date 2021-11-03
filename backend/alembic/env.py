@@ -5,7 +5,7 @@ from sqlalchemy import engine_from_config, pool
 from sqlalchemy.ext.asyncio import AsyncEngine
 
 from alembic import context
-from src.settings.config import POSTGRES_URL
+from src.settings.config import settings
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -26,7 +26,7 @@ target_metadata = None
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
 
-config.set_main_option("sqlalchemy.url", POSTGRES_URL)
+config.set_main_option("sqlalchemy.url", settings.postgres_url)
 
 
 def run_migrations_offline():

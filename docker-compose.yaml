@@ -14,13 +14,9 @@ services:
             dockerfile: docker/python/Dockerfile
         env_file: ./config/.env
         container_name: flopphouse_backend
-        ports:
-            - 8000:8000
         restart: always
         depends_on:
             - db
-        volumes:
-            - ./backend:/backend
 
 volumes:
     pgdata:

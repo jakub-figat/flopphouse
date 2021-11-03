@@ -10,6 +10,7 @@ build-dev:
 	docker-compose build
 
 up-dev:
+	make migrate
 	docker-compose up
 
 backend-bash:
@@ -25,12 +26,19 @@ db-shell:
 	docker-compose exec db psql -U $(postgres-user)
 
 alembic-revision:
-	docker-compose exec backend bash -c "alembic revision -m '$(message)'"
+	docker-compose run --rm backend bash -c "alembic revision -m '$(message)'"
 
 migrate:
-	docker-compose exec backend bash -c "alembic upgrade $(revision)"
+	docker-compose run --rm backend bash -c "alembic upgrade $(revision)"
 
 recreate-db:
 	docker-compose exec db bash -c "runuser postgres -c 'dropdb $(postgres-database); createdb $(postgres-database)'"
 	docker-compose exec db psql -U postgres -a -f /docker-entrypoint-initdb.d/init-postgres.sql
 	make migrate
+
+test:
+	docker-compose exec backend bash  -c "coverage run --source=src -m pytest -s $(location)"
+
+coverage-html:
+	docker-compose exec backend bash -c "coverage html"
+

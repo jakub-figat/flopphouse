@@ -1,18 +1,23 @@
 from fastapi import Depends
 from fastapi.routing import APIRouter
+from sqlalchemy.ext.asyncio import AsyncSession
+from starlette import status
 
-from src.apps.user.data_access import UserDataAccess
-from src.apps.user.dependencies import get_user_data_access
+from src.apps.user.data_access import EmailDataAccess, UserDataAccess
 from src.apps.user.schemas import UserRegisterSchema, UserSchema
+from src.dependencies import get_async_session
 
 router = APIRouter()
 
 
-@router.post("/register", tags=["users"], response_model=UserSchema)
+@router.post("/register", tags=["users"], status_code=status.HTTP_201_CREATED)
 async def register_user(
     user_register_schema: UserRegisterSchema,
-    user_data_access: UserDataAccess = Depends(get_user_data_access),
+    async_session: AsyncSession = Depends(get_async_session),
 ) -> UserSchema:
-    user = await user_data_access.create_user(user_register_schema=user_register_schema)
+    user_schema = await UserDataAccess(async_session=async_session).create_user(
+        user_register_schema=user_register_schema
+    )
+    await EmailDataAccess(async_session=async_session).create_confirmation_email(user_schema=user_schema)
 
-    return user
+    return {"detail": "Confirmation email sent"}

@@ -1,14 +1,24 @@
+from sqlalchemy import Column, text
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.declarative import as_declarative
+from sqlalchemy.orm import declared_attr, sessionmaker
 
-from src.settings import config
+from src.settings.config import settings
 
-async_engine = create_async_engine(url=config.POSTGRES_URL, echo=True)
-
+async_engine = create_async_engine(url=settings.postgres_url, echo=True)
 
 AsyncSessionLocal = sessionmaker(
     bind=async_engine, expire_on_commit=False, autoflush=False, autocommit=False, class_=AsyncSession
 )
 
-Base = declarative_base()
+
+@as_declarative()
+class Base:
+    id = Column(UUID(as_uuid=True), primary_key=True, server_default=text("uuid_generate_v4()"))
+
+    __mapper_args__ = {"eager_defaults": True}
+
+    @declared_attr
+    def __tablename__(cls) -> str:
+        return cls.__tablename__.lower()
