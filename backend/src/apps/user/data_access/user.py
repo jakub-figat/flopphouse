@@ -1,16 +1,23 @@
 from typing import Any, Type
 
-from sqlalchemy.ext.asyncio import AsyncSession
-
-from src.apps.user.data_access import EmailDataAccess
 from src.apps.user.models import User
 from src.apps.user.schemas import UserPasswordSchema, UserRegisterSchema, UserSchema
 from src.apps.user.utils import password_context
+from src.utils.data_access.base import BaseDataAccess, Model, SchemaIn, SchemaOut
 
 
-class UserDataAccess:
-    def __init__(self, *, async_session: AsyncSession) -> None:
-        self._async_session = async_session
+class UserDataAccess(BaseDataAccess[UserSchema, UserSchema, User]):
+    @property
+    def _schema_in(self) -> Type[SchemaIn]:
+        return UserSchema
+
+    @property
+    def _schema_out(self) -> Type[SchemaOut]:
+        return UserSchema
+
+    @property
+    def _model(self) -> Type[Model]:
+        return User
 
     async def _hash_password(self, *, user_data: dict[str, Any]) -> None:
         password_2 = user_data.pop("password_2")
@@ -26,6 +33,4 @@ class UserDataAccess:
         self._async_session.add(user)
         await self._async_session.flush()
 
-        user_schema = UserSchema.from_orm(user)
-
-        return user_schema
+        return self._schema_out.from_orm(user)

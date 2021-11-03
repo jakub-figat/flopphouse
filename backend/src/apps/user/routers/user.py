@@ -5,9 +5,7 @@ from starlette import status
 
 from src.apps.user.data_access import EmailDataAccess, UserDataAccess
 from src.apps.user.schemas import UserRegisterSchema, UserSchema
-from src.apps.user.utils.email import send_confirmation_email
 from src.dependencies import get_async_session
-from src.utils.email import EmailSender
 
 router = APIRouter()
 

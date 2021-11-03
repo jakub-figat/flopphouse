@@ -4,6 +4,7 @@ from pydantic import BaseSettings
 
 
 class GeneralSettings(BaseSettings):
+    ENV: str = "development"
     BASE_DIR: Path = Path(__file__).parents[2]
     DOMAIN: str
     TEMPLATE_FOLDER: Path = BASE_DIR / "templates"
@@ -35,6 +36,12 @@ class EmailSettings(BaseSettings):
     MAIL_SSL: bool = False
     USE_CREDENTIALS: bool = True
     VALIDATE_CERTS: bool = True
+
+    @property
+    def email_sender_class(self):
+        from src.utils.email import ConsoleEmailSender, EmailSender
+
+        return ConsoleEmailSender if self.ENV == "development" else EmailSender
 
 
 class Settings(GeneralSettings, DatabaseSettings, EmailSettings):

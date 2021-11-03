@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from src.apps.user.models import EmailConfirmation
 from src.apps.user.schemas import EmailConfirmationSchema, UserSchema
 from src.apps.user.utils.email import send_confirmation_email
-from src.utils.email import EmailSender
+from src.settings.config import settings
 
 
 class EmailDataAccess:
@@ -20,4 +20,4 @@ class EmailDataAccess:
         self._async_session.add(email_confirmation)
         await self._async_session.flush()
 
-        await send_confirmation_email(user_schema=user_schema, email_sender=EmailSender())
+        await send_confirmation_email(user_schema=user_schema, email_sender=settings.email_sender_class())
